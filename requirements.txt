@@ -1,0 +1,6 @@
+tenacity
+rich
+ollama
+pydantic
+jinja2
+loguru
