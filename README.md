@@ -73,12 +73,18 @@ And for an invalid pair:
 ## Development
 To set up a development environment, follow these steps:
 
-1. **Create a virtual environment**:
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/p3nGu1nZz/oproof.git
+    cd oproof
+    ```
+
+2. **Create a virtual environment**:
     ```bash
     python -m venv .venv/oproof
     ```
 
-2. **Activate the virtual environment**:
+3. **Activate the virtual environment**:
     - On Windows:
         ```bash
         .venv\oproof\Scripts\activate
@@ -88,14 +94,14 @@ To set up a development environment, follow these steps:
         source .venv/oproof/bin/activate
         ```
 
-3. **Install the package in editable mode**:
-    ```bash
-    pip install -e .
-    ```
-
 4. **Install dependencies**:
     ```bash
     pip install -r requirements.txt
+    ```
+
+5. **Install the package in editable mode**:
+    ```bash
+    pip install -e .
     ```
 
 ## Contributing
