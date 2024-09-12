@@ -36,9 +36,7 @@ class Main:
         try:
             self.manager.check_version()
             validation_result = self.manager.validate_response(prompt, response)
-            generated_prompt = self.manager.generate_prompt(prompt, response) if include_prompts else None
-            nested_prompt = {Const.PROOFS_KEY: generated_prompt} if include_prompts else None
-            final_result = Serializer.serialize_output(prompt, [validation_result], [nested_prompt] if include_prompts else [], include_prompts)
+            final_result = Serializer.serialize_output(prompt, [validation_result], include_prompts)
             json_output = json.dumps(final_result, indent=2, separators=(',', ': '))
             console.print(JSON(json_output))
         except ValidationError as e:

@@ -24,7 +24,7 @@ class Renderer:
         replacements = {
             "{{ task }}": task_name,
             "{{ lang }}": Const.LANG_DEFAULT,
-            "{{ system_type }}": Template.SYSTEM_TYPE,
+            "{{ type }}": Template.TYPE,
             "{{ domains }}": ', '.join(Template.DOMAINS)
         }
         for key, value in replacements.items():

@@ -1,7 +1,7 @@
 from jinja2 import Template as T
 
 class Template:
-    SYSTEM_TYPE = "proof validation"
+    TYPE = "proof validation"
 
     DOMAINS = [
         "basic math",

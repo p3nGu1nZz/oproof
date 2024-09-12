@@ -2,7 +2,7 @@ from typing import List, Dict, Any
 
 class Serializer:
     @staticmethod
-    def serialize_output(text: str, responses: List[Dict[str, Any]], response_prompts: List[Dict[str, str]], include_prompts: bool) -> Dict[str, Any]:
+    def serialize_output(text: str, responses: List[Dict[str, Any]], include_prompts: bool) -> Dict[str, Any]:
         result = {
             "original_text": text,
             "responses": [
@@ -13,11 +13,9 @@ class Serializer:
                     "domain": response.get("domain", "unknown"),
                     "context": response.get("context", "unknown"),
                     "reason": response.get("reason", "No reason provided"),
-                    "raw_response": response.get("raw_response", "")  # Include the raw response
+                    "raw_response": response.get("raw_response", "") if include_prompts else None
                 }
                 for response in responses
             ]
         }
-        if include_prompts:
-            result["prompts"] = response_prompts
         return result

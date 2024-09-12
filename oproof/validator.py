@@ -25,7 +25,6 @@ class Validator:
             Log.error(f"Validation error: {validation_result[Const.ERROR_KEY]}")
             raise ValidationError(validation_result[Const.ERROR_KEY])
         
-        # Ensure required keys are present
         is_valid = validation_result.get('is_valid', False)
         domain = validation_result.get('domain', 'unknown')
         context = validation_result.get('context', 'unknown')
@@ -36,5 +35,5 @@ class Validator:
             'domain': domain,
             'context': context,
             'reason': reason,
-            'raw_response': validation_result  # Include the raw response
+            'raw_response': validation_result
         }

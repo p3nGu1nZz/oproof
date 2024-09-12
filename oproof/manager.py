@@ -5,6 +5,7 @@ from .log import Log
 from .constants import Const
 from .config import Config
 from .template import Template
+from .renderer import Renderer
 
 class Manager:
     def __init__(self, config: Config):
@@ -36,4 +37,4 @@ class Manager:
         }
 
     def generate_prompt(self, prompt: str, response: str) -> str:
-        return self.task._render_prompt(prompt, response, Template.TEMPLATES["validation"], Template.SYSTEM_PROMPTS["validation"], Template.INSTRUCTIONS)
+        return Renderer.render_prompt(prompt, response, Template.SYSTEM_PROMPTS["validation"], Template.INSTRUCTIONS, self.config)

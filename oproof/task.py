@@ -1,10 +1,10 @@
 import subprocess
-import json
 from typing import List, Dict, Any
 from .constants import Const
 from .template import Template
 from .log import Log
 from .renderer import Renderer
+from .response import Response
 import ollama as oll
 from httpx import ConnectError
 
@@ -31,10 +31,8 @@ class Task:
         if Const.ERROR_KEY in output:
             raise Exception(output[Const.ERROR_KEY])
        
-        parsed_response = self._parse_response(output['response'])
-        Log.debug(f"Parsed Response: {parsed_response}")
-        
-        return {"prompt": rendered_prompt, "data": output['response'], "response": parsed_response}
+        response_obj = Response(prompt, response, rendered_prompt, output)
+        return response_obj.get_response_data()
 
     def _log_error_and_raise(self, error_message: str, exception_message: str) -> None:
         Log.error(error_message)
@@ -43,20 +41,7 @@ class Task:
     def _generate_output(self, prompt: str) -> Dict[str, Any]:
         try:
             return oll.generate(prompt=prompt, model=self.cfg.model)
-        except ConnectError as e:
+        except ConnectError:
             with Log.suppress_logs():
                 error_message = "Ollama is not running or installed. Please ensure Ollama is running and try again."
                 return {Const.ERROR_KEY: error_message}
-
-    def _parse_response(self, response: str) -> Any:
-        Log.debug(f"Raw response: {response}")
-        try:
-            corrected_response = self._correct_response(response)
-            return json.loads(corrected_response)
-        except Exception as ex:
-            return {"error": str(ex)}
-
-    def _correct_response(self, response: str) -> str:
-        if response.startswith("[") and response.endswith("]"):
-            response = "{" + response[1:-1] + "}"
-        return response
