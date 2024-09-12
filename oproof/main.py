@@ -28,7 +28,7 @@ class Main:
             Log.setup(parsed_args.debug)
             if parsed_args.debug:
                 Log.start_main_function()
-            main._execute(parsed_args.prompt, parsed_args.response, parsed_args.debug, parsed_args.prompt)
+            main._execute(parsed_args.prompt, parsed_args.response, parsed_args.debug, parsed_args.prompts)
         except Exception as e:
             handle_error(e, parsed_args.debug)
 
@@ -36,8 +36,9 @@ class Main:
         try:
             self.manager.check_version()
             validation_result = self.manager.validate_response(prompt, response)
-            generated_prompt = self.manager.generate_prompt(prompt, response)
-            final_result = Serializer.serialize_output(prompt, [validation_result], [generated_prompt], include_prompts)
+            generated_prompt = self.manager.generate_prompt(prompt, response) if include_prompts else None
+            nested_prompt = {Const.PROOFS_KEY: generated_prompt} if include_prompts else None
+            final_result = Serializer.serialize_output(prompt, [validation_result], [nested_prompt] if include_prompts else [], include_prompts)
             json_output = json.dumps(final_result, indent=2, separators=(',', ': '))
             console.print(JSON(json_output))
         except ValidationError as e:
