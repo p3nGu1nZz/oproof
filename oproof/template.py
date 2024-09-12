@@ -16,13 +16,13 @@ class Template:
     INSTRUCTIONS = (
         "You are an expert {{ system_type }} system.\n"
         "Your task is to identify the domain, context, and is_valid of the given pair of prompt and response strings.\n"
-        "Return the domain, context, is_valid as plain text.\n"
+        "Return the domain, context, and is_valid as plain text.\n"
         "Do not provide any explanations, markdown, code, or other content beside a JSON Object.\n"
         "Only return the domain and context of input prompt and response pair.\n"
-        "Return JSON Object of type { \"domain\": domain, \"context\": context, \"is_valid\" }\n"
+        "Return JSON Object of type { \"domain\": domain, \"context\": context, \"is_valid\": is_valid, \"reason\": reason }\n"
         "The domain to choose from are: {{ domains }}.\n"
         "The context is extrapolated from input prompt and response pair based in selected domains.\n"
-        ""
+        "The reason is provided as the what fail the proof of A -> B = A*"
     )
 
     PROMPT = (
@@ -31,7 +31,7 @@ class Template:
         "Example: {{ example }}\n"
         "User: {{ prompt }}\n"
         "Response: {{ response }}\n"
-        "System: Return only the domain and context. No explanations, only the domain and context; e.g., {\"domain\": \"basic math\", \"context\": \"arithmetic\"}\n"
+        "System: Return only the domain and context. No explanations, only the domain and context; e.g., {\"domain\": domain, \"context\": context, \"is_valid\": is_valid, \"reason\": reason}\n"
     )
 
     TEMPLATES = {
@@ -39,5 +39,5 @@ class Template:
     }
 
     TASKS = {
-        "proofs": "Given prompt 'What is 2 + 2?' and response '4' returns 'basic math' with context 'arithmetic'"
+        "proofs": "Given prompt 'What is 2 + 2?' and response '4' returns domain as 'basic math', context as 'arithmetic', and reason as null"
     }
