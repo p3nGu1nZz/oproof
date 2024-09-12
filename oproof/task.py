@@ -5,7 +5,7 @@ from .constants import Const
 from .template import Template
 from .log import Log
 import ollama as oll
-from httpx import ConnectError  # Import the ConnectError exception
+from httpx import ConnectError
 
 class Task:
     def __init__(self, cfg):
@@ -41,18 +41,20 @@ class Task:
         raise Exception(exception_message)
 
     def _render_prompt(self, prompt: str, response: str, template, system_prompt, instructions) -> str:
+        task_name = list(Template.TASKS.keys())[0]
         return template.render(
             system=system_prompt,
-            task=Const.VALIDATE_TASK,  # Use the constant for the task name
+            task=task_name,
             text=prompt,
-            example=Template.TASKS[Const.VALIDATE_TASK],  # Use the corresponding task
+            example=Template.TASKS[task_name],
             instructions=instructions,
             lang=self.cfg.lang
         )
 
     def _post_process(self, prompt: str) -> str:
+        task_name = list(Template.TASKS.keys())[0]
         replacements = {
-            "{{ task }}": Const.VALIDATE_TASK,  # Use the constant for the task name
+            "{{ task }}": task_name,
             "{{ lang }}": Const.LANG_DEFAULT
         }
         for key, value in replacements.items():

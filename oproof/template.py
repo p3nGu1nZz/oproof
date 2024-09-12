@@ -20,7 +20,7 @@ class Template:
         "Example: {{ example }}\n"
         "User: {{ prompt }}\n"
         "Response: {{ response }}\n"
-        "System: Return only a JSON object with the validation result. No explanations, only JSON object; eg. {\"is_valid\": true, \"domain\": \"basic math\", \"context\": \"arithmetic\", \"reason\": null}"
+        "System: Return only a JSON object with the validation result. No explanations, only JSON object; e.g., {\"is_valid\": true, \"domain\": \"basic math\", \"context\": \"arithmetic\", \"reason\": null}"
     )
 
     TEMPLATES = {
@@ -28,5 +28,5 @@ class Template:
     }
 
     TASKS = {
-        "validate": "Validate the response for the given prompt."
+        "proofs": "Proof the given prompt and response pair of input text strings. e.g., 'What is 2 + 2?' '4' returns {\"is_valid\": true, \"domain\": \"basic math\", \"context\": \"arithmetic\", \"reason\": null}"
     }

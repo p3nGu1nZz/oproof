@@ -27,4 +27,3 @@ class Const:
     ARG_PROMPT_TEXT_HELP = "Input prompt"
     ARG_RESPONSE_TEXT = "response"
     ARG_RESPONSE_TEXT_HELP = "Input response"
-    VALIDATE_TASK = "validate"
