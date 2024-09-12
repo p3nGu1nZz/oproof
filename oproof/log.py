@@ -1,6 +1,7 @@
 from rich.console import Console
 from rich.logging import RichHandler
 import logging
+from contextlib import contextmanager
 
 console = Console()
 
@@ -40,3 +41,12 @@ class Log:
         attempt_number = retry_state.attempt_number
         total_attempts = retry_state.fn.__tenacity__.stop.max_attempt_number
         Log.info(f"Retrying ({attempt_number} / {total_attempts})...")
+
+    @staticmethod
+    @contextmanager
+    def suppress_logs():
+        logging.disable(logging.CRITICAL)
+        try:
+            yield
+        finally:
+            logging.disable(logging.NOTSET)

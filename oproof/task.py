@@ -63,10 +63,9 @@ class Task:
         try:
             return oll.generate(prompt=prompt, model=self.cfg.model)
         except ConnectError as e:
-            Log.error(f"Connection error: {e}")
-            error_message = "Ollama is not running or installed. Please ensure Ollama is running and try again."
-            Log.error(error_message)
-            return {Const.ERROR_KEY: error_message}
+            with Log.suppress_logs():
+                error_message = "Ollama is not running or installed. Please ensure Ollama is running and try again."
+                return {Const.ERROR_KEY: error_message}
 
     def _parse_response(self, response: str) -> Any:
         Log.debug(f"Raw response: {response}")
