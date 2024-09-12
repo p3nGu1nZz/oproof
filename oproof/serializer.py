@@ -7,12 +7,12 @@ class Serializer:
             "original_text": text,
             "responses": [
                 {
-                    "prompt": response["prompt"],
-                    "response": response["response"],
-                    "is_valid": response["is_valid"],
+                    "prompt": response.get("prompt", ""),
+                    "response": response.get("response", ""),
+                    "is_valid": response.get("is_valid", False),
                     "domain": response.get("domain", "unknown"),
                     "context": response.get("context", "unknown"),
-                    "reason": response.get("reason", None)
+                    "reason": response.get("reason", "No reason provided")
                 }
                 for response in responses
             ]
