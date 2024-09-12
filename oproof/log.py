@@ -34,3 +34,9 @@ class Log:
     @staticmethod
     def start_main_function():
         Log.info("Starting main function")
+
+    @staticmethod
+    def log_retry(retry_state):
+        attempt_number = retry_state.attempt_number
+        total_attempts = retry_state.fn.__tenacity__.stop.max_attempt_number
+        Log.info(f"Retrying ({attempt_number} / {total_attempts})...")

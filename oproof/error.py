@@ -16,4 +16,5 @@ def handle_error(e: Exception, debug: bool) -> None:
         console.print_exception(show_locals=True)
     else:
         console.print(Panel(f"[red]Error:[/red] {str(e)}", border_style="red"))
+    console.print(json.dumps(error_output, indent=2))
     raise SystemExit(1)

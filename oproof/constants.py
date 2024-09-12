@@ -23,3 +23,7 @@ class Const:
     ARG_PROMPT = "--prompt"
     ARG_PROMPT_HELP = "Include prompts in the output JSON"
     ARG_DESCRIPTION = "Oproof script"
+    ARG_PROMPT_TEXT = "prompt"
+    ARG_PROMPT_TEXT_HELP = "Input prompt"
+    ARG_RESPONSE_TEXT = "response"
+    ARG_RESPONSE_TEXT_HELP = "Input response"

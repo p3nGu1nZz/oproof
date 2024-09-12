@@ -1,4 +1,11 @@
+import subprocess
 import json
+from typing import List, Dict, Any
+from .constants import Const
+from .template import Template
+from .log import Log
+import ollama as oll
+from httpx import ConnectError  # Import the ConnectError exception
 
 class Task:
     def __init__(self, cfg):
@@ -6,7 +13,7 @@ class Task:
 
     def run(self, cmd: List[str], error_msg: str = Const.RUN_COMMAND_ERROR) -> None:
         try:
-            result = proc.run(cmd, capture_output=True, text=True)
+            result = subprocess.run(cmd, capture_output=True, text=True)
             if result.returncode != 0:
                 self._log_error_and_raise(result.stdout, error_msg)
         except FileNotFoundError:
@@ -21,6 +28,9 @@ class Task:
         Log.debug(f"Response: {output}")
         Log.debug(Const.PROMPT_SEPARATOR)
         
+        if Const.ERROR_KEY in output:
+            raise Exception(output[Const.ERROR_KEY])
+       
         parsed_response = self._parse_response(output['response'])
         Log.debug(f"Parsed Response: {parsed_response}")
         
@@ -33,9 +43,9 @@ class Task:
     def _render_prompt(self, prompt: str, response: str, template, system_prompt, instructions) -> str:
         return template.render(
             system=system_prompt,
-            task=response,
+            task="validate",  # Use a valid task name
             text=prompt,
-            example=Template.TASKS[response],
+            example=Template.TASKS["validate"],  # Use the corresponding task
             instructions=instructions,
             lang=self.cfg.lang
         )
@@ -50,7 +60,13 @@ class Task:
         return prompt
 
     def _generate_output(self, prompt: str) -> Dict[str, Any]:
-        return oll.generate(prompt=prompt, model=self.cfg.model)
+        try:
+            return oll.generate(prompt=prompt, model=self.cfg.model)
+        except ConnectError as e:
+            Log.error(f"Connection error: {e}")
+            error_message = "Ollama is not running or installed. Please ensure Ollama is running and try again."
+            Log.error(error_message)
+            return {Const.ERROR_KEY: error_message}
 
     def _parse_response(self, response: str) -> Any:
         Log.debug(f"Raw response: {response}")
@@ -62,6 +78,6 @@ class Task:
             return {"error": "Invalid JSON response"}
 
     def _correct_response(self, response: str) -> str:
-        if response.startswith("{") and response.endswith("}"):
-            response = "[" + response[1:-1] + "]"
+        if response.startswith("[") and response.endswith("]"):
+            response = "{" + response[1:-1] + "}"
         return response
