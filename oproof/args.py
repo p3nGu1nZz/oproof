@@ -7,7 +7,7 @@ class Args:
         self.parser.add_argument(Const.ARG_PROMPT_TEXT, type=str, help=Const.ARG_PROMPT_TEXT_HELP)
         self.parser.add_argument(Const.ARG_RESPONSE_TEXT, type=str, help=Const.ARG_RESPONSE_TEXT_HELP)
         self.parser.add_argument(Const.ARG_DEBUG, action="store_true", help=Const.ARG_DEBUG_HELP)
-        self.parser.add_argument(Const.ARG_PROMPTS, action="store_true", help=Const.ARG_PROMPTS_HELP)
+        self.parser.add_argument(Const.ARG_RAW, action="store_true", help=Const.ARG_RAW_HELP)
         self.args = None
 
     def parse(self):

@@ -28,15 +28,15 @@ class Main:
             Log.setup(parsed_args.debug)
             if parsed_args.debug:
                 Log.start_main_function()
-            main._execute(parsed_args.prompt, parsed_args.response, parsed_args.debug, parsed_args.prompts)
+            main._execute(parsed_args.prompt, parsed_args.response, parsed_args.debug, parsed_args.raw)
         except Exception as e:
             handle_error(e, parsed_args.debug)
 
-    def _execute(self, prompt: str, response: str, debug: bool, include_prompts: bool) -> None:
+    def _execute(self, prompt: str, response: str, debug: bool, include_raw: bool) -> None:
         try:
             self.manager.check_version()
             validation_result = self.manager.validate_response(prompt, response)
-            final_result = Serializer.serialize_output(prompt, [validation_result], include_prompts)
+            final_result = Serializer.serialize_output(prompt, [validation_result], include_raw)
             json_output = json.dumps(final_result, indent=2, separators=(',', ': '))
             console.print(JSON(json_output))
         except ValidationError as e:

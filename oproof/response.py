@@ -19,7 +19,7 @@ class Response:
             "context": self.parsed_response.get("context", "unknown")
         }
         
-        if self.parsed_response.get("reason") is not None:
+        if not self.parsed_response.get("is_valid", False) and self.parsed_response.get("reason") is not None:
             response_data["reason"] = self.parsed_response.get("reason")
         
         if self.output.get("raw_response") is not None:
