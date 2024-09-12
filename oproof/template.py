@@ -10,11 +10,11 @@ class Template:
     ]
 
     SYSTEM_PROMPTS = {
-        "validation": "You are an expert {{ system_type }} system that identifies the domain and context for {{ task }} of prompt and response pairs in {{ lang }}."
+        "validation": "You are an expert {{ type }} system that identifies the domain and context for {{ task }} of prompt and response pairs in {{ lang }}."
     }
     
     INSTRUCTIONS = (
-        "You are an expert {{ system_type }} system.\n"
+        "You are an expert {{ type }} system.\n"
         "Your task is to identify the domain, context, and is_valid of the given pair of prompt and response strings.\n"
         "Return the domain, context, and is_valid as plain text.\n"
         "Do not provide any explanations, markdown, code, or other content beside a JSON Object.\n"
