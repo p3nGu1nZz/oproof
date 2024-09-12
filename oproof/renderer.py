@@ -30,3 +30,10 @@ class Renderer:
         for key, value in replacements.items():
             prompt = prompt.replace(key, value)
         return prompt
+
+    @staticmethod
+    def render_template(template_name: str, **kwargs) -> str:
+        template = Template.TEMPLATES.get(template_name)
+        if template:
+            return template.render(**kwargs)
+        raise ValueError(f"Template {template_name} not found.")

@@ -21,7 +21,7 @@ class Template:
         "Only return the domain and context of input prompt and response pair.\n"
         "Return JSON Object of type { \"domain\": domain, \"context\": context }\n"
         "The domains to choose from are: {{ domains }}."
-        "Infer the context based from input prompt and reponse pair in extrapolated domains"
+        "Infer the context based from input prompt and response pair in extrapolated domains"
     )
 
     PROMPT = (
@@ -31,7 +31,6 @@ class Template:
         "User: {{ prompt }}\n"
         "Response: {{ response }}\n"
         "System: Return only the domain and context. No explanations, only the domain and context; e.g., {\"domain\": \"basic math\", \"context\": \"arithmetic\"}\n"
-        "The domains to choose from are: {{ domains }}.\n"
     )
 
     TEMPLATES = {
@@ -41,10 +40,3 @@ class Template:
     TASKS = {
         "proofs": "Proof the given prompt and response pair of input text strings. e.g., 'What is 2 + 2?' '4' returns 'basic math' with context 'arithmetic'\n"
     }
-
-    @staticmethod
-    def render_template(template_name: str, **kwargs) -> str:
-        template = Template.TEMPLATES.get(template_name)
-        if template:
-            return template.render(**kwargs)
-        raise ValueError(f"Template {template_name} not found.")
