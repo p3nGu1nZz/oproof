@@ -21,7 +21,7 @@ class Template:
         "Only return the domain and context of input prompt and response pair.\n"
         "Return JSON Object of type { \"domain\": domain, \"context\": context, \"is_valid\": is_valid, \"reason\": reason }\n"
         "The domain to choose from are: {{ domains }}.\n"
-        "The context is extrapolated from input prompt and response pair based in selected domains.\n"
+        "Context is derived from the input prompt-response pair within selected domains and is always non-null.\n"
         "The reason is provided as the what fail the proof of A -> B = A*"
     )
 
