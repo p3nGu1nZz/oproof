@@ -11,19 +11,25 @@ class Response:
         self.parsed_response = self._parse_response(output['response'])
 
     def get_response_data(self) -> Dict[str, Any]:
-        return {
+        response_data = {
             "prompt": self.prompt,
             "response": self.response,
             "is_valid": self.parsed_response.get("is_valid", False),
-            "domain": self.parsed_response.get("domain", "basic math"),
-            "context": self.parsed_response.get("context", "arithmetic"),
-            "reason": self.parsed_response.get("reason", None),
-            "raw_response": {
+            "domain": self.parsed_response.get("domain", "unknown"),
+            "context": self.parsed_response.get("context", "unknown")
+        }
+        
+        if self.parsed_response.get("reason") is not None:
+            response_data["reason"] = self.parsed_response.get("reason")
+        
+        if self.output.get("raw_response") is not None:
+            response_data["raw_response"] = {
                 "prompt": self.rendered_prompt,
                 "data": self.output['response'],
                 "response": self.parsed_response
             }
-        }
+        
+        return response_data
 
     def _parse_response(self, response: str) -> Any:
         Log.debug(f"Raw response: {response}")

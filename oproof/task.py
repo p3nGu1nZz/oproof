@@ -7,19 +7,19 @@ from .renderer import Renderer
 from .response import Response
 import ollama as oll
 from httpx import ConnectError
+from .decorators import log_and_handle_errors
 
 class Task:
     def __init__(self, cfg):
         self.cfg = cfg
 
+    @log_and_handle_errors
     def run(self, cmd: List[str], error_msg: str = Const.RUN_COMMAND_ERROR) -> None:
-        try:
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            if result.returncode != 0:
-                self._log_error_and_raise(result.stdout, error_msg)
-        except FileNotFoundError:
-            self._log_error_and_raise(error_msg, error_msg)
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            self._log_error_and_raise(result.stdout, error_msg)
 
+    @log_and_handle_errors
     def execute(self, prompt: str, response: str, template, system_prompt, instructions) -> Dict[str, Any]:
         rendered_prompt = Renderer.render_prompt(prompt, response, system_prompt, instructions, self.cfg)
         Log.debug(f"Prompt: {rendered_prompt}")
