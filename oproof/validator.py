@@ -35,5 +35,6 @@ class Validator:
             'is_valid': is_valid,
             'domain': domain,
             'context': context,
-            'reason': reason
+            'reason': reason,
+            'raw_response': validation_result  # Include the raw response
         }

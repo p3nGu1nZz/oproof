@@ -12,7 +12,8 @@ class Serializer:
                     "is_valid": response.get("is_valid", False),
                     "domain": response.get("domain", "unknown"),
                     "context": response.get("context", "unknown"),
-                    "reason": response.get("reason", "No reason provided")
+                    "reason": response.get("reason", "No reason provided"),
+                    "raw_response": response.get("raw_response", "")  # Include the raw response
                 }
                 for response in responses
             ]

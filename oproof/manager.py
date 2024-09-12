@@ -31,7 +31,8 @@ class Manager:
             'is_valid': validation_result['is_valid'],
             'domain': domain,
             'context': context,
-            'reason': validation_result.get('reason', None)
+            'reason': validation_result.get('reason', None),
+            'raw_response': validation_result.get('raw_response', "")
         }
 
     def generate_prompt(self, prompt: str, response: str) -> str:

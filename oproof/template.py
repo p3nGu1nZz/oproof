@@ -1,32 +1,43 @@
 from jinja2 import Template as T
 
 class Template:
-    INSTRUCTIONS = (
-        "Provide the task as plain JSON, no explanations or markdown.\n"
-        "Return a JSON object with the validation result.\n"
-        "The object should include 'is_valid', 'domain', 'context', and 'reason' fields.\n"
-        "No markdown or code.\n"
-        "Do not answer the input; only validate the response.\n"
-        "No explanations; only the JSON object."
+    SYSTEM_TYPE = (
+        "proof validation"
     )
 
-    SYSTEM_PROMPTS = {
-        "validation": "You are an expert validation system that validates responses for {{ task }}s. Validate the following response in {{ lang }}."
-    }
+    DOMAINS = [
+        "basic math",
+        "grammar",
+        "spelling"
+    ]
 
-    PROMPT_TEMPLATE = (
+    SYSTEM_PROMPTS = {
+        "validation": "You are an expert {{ system_type }} system that identifies the domain for {{ task }}. Identify the domain of the following response in {{ lang }}."
+    }
+    
+    INSTRUCTIONS = (
+        "You are an expert {{ system_type }} system. Your task is to identify the domain and context of the given pair of prompt and response strings.\n"
+        "Return the domain and context as plain text.\n"
+        "Do not provide any explanations, markdown, code, or other content beside a JSON Object.\n"
+        "Only return the domain and context of input prompt and response pair.\n"
+        "Return JSON Object of type { \"domain\": domain, \"context\": context }\n"
+        "The domains to choose from are: {{ domains }}.\n"
+    )
+
+    PROMPT = (
         "System: {{ system }}\n"
         "Instructions: {{ instructions }}\n"
-        "Example: {{ example }}\n"
+        "Example: 'What is 2 + 2?' '4' returns 'basic math' with context 'arithmetic'\n"
         "User: {{ prompt }}\n"
         "Response: {{ response }}\n"
-        "System: Return only a JSON object with the validation result. No explanations, only JSON object; e.g., {\"is_valid\": true, \"domain\": \"basic math\", \"context\": \"arithmetic\", \"reason\": null}"
+        "System: Return only the domain and context. No explanations, only the domain and context; e.g., {\"domain\": \"basic math\", \"context\": \"arithmetic\"}\n"
+        "The domains to choose from are: {{ domains }}.\n"
     )
 
     TEMPLATES = {
-        "validation": T(PROMPT_TEMPLATE)
+        "validation": T(PROMPT)
     }
 
     TASKS = {
-        "proofs": "Proof the given prompt and response pair of input text strings. e.g., 'What is 2 + 2?' '4' returns {\"is_valid\": true, \"domain\": \"basic math\", \"context\": \"arithmetic\", \"reason\": null}"
+        "proofs": "Proof the given prompt and response pair of input text strings. e.g., 'What is 2 + 2?' '4' returns 'basic math' with context 'arithmetic'\n"
     }
