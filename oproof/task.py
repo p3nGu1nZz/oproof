@@ -43,16 +43,16 @@ class Task:
     def _render_prompt(self, prompt: str, response: str, template, system_prompt, instructions) -> str:
         return template.render(
             system=system_prompt,
-            task="validate",  # Use a valid task name
+            task=Const.VALIDATE_TASK,  # Use the constant for the task name
             text=prompt,
-            example=Template.TASKS["validate"],  # Use the corresponding task
+            example=Template.TASKS[Const.VALIDATE_TASK],  # Use the corresponding task
             instructions=instructions,
             lang=self.cfg.lang
         )
 
     def _post_process(self, prompt: str) -> str:
         replacements = {
-            "{{ task }}": prompt,
+            "{{ task }}": Const.VALIDATE_TASK,  # Use the constant for the task name
             "{{ lang }}": Const.LANG_DEFAULT
         }
         for key, value in replacements.items():
