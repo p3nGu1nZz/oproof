@@ -4,6 +4,7 @@ from .validator import Validator
 from .log import Log
 from .constants import Const
 from .config import Config
+from .template import Template
 
 class Manager:
     def __init__(self, config: Config):
@@ -21,7 +22,6 @@ class Manager:
     def validate_response(self, prompt: str, response: str) -> Dict[str, Any]:
         validation_result = self.validator.validate(prompt, response)
         
-        # Extract domain and context from the validation result
         domain = validation_result.get('domain', 'unknown')
         context = validation_result.get('context', 'unknown')
         
@@ -33,3 +33,6 @@ class Manager:
             'context': context,
             'reason': validation_result.get('reason', None)
         }
+
+    def generate_prompt(self, prompt: str, response: str) -> str:
+        return self.task._render_prompt(prompt, response, Template.TEMPLATES["validation"], Template.SYSTEM_PROMPTS["validation"], Template.INSTRUCTIONS)
