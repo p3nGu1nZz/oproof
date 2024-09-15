@@ -40,7 +40,7 @@ class Task:
 
     def _generate_output(self, prompt: str) -> Dict[str, Any]:
         try:
-            return oll.generate(prompt=prompt, model=self.cfg.model)
+            return oll.generate(prompt=prompt, model=self.cfg.model, context=[])
         except ConnectError:
             with Log.suppress_logs():
                 error_message = "Ollama is not running or installed. Please ensure Ollama is running and try again."
